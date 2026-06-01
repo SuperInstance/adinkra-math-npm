@@ -1,0 +1,28 @@
+{
+  "name": "adinkra-math",
+  "version": "1.0.0",
+  "description": "West African symbolic encoding + SUSY adinkras for the browser — TypeScript/npm port of adinkra-math",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/test/*.test.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "adinkra",
+    "supersymmetry",
+    "symbolic-encoding",
+    "topology",
+    "west-african",
+    "akan",
+    "glyph",
+    "chromotopology"
+  ],
+  "author": "SuperInstance",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  }
+}
