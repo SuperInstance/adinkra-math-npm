@@ -1,10 +1,14 @@
 # adinkra-math
 
-West African symbolic encoding + SUSY adinkras for the browser — TypeScript/npm port.
+> West African Adinkra symbols as mathematics for JavaScript — symbolic encoding, topology, supersymmetry, and ML.
 
-Bridges two meanings of "adinkra":
-- **West African (Akan) visual symbols** encoding philosophical concepts
-- **Physics adinkras** — graphical tools for studying representations of supersymmetry algebras
+## What This Does
+
+`adinkra-math` implements the mathematical framework inspired by Adinkra symbols for JavaScript/TypeScript. It provides symbolic encoding of concepts as geometric primitives, glyph composition, topological analysis (Euler characteristic, genus), supersymmetry Adinkra graphs, and ML operations (kNN, K-means). Use it for symbolic AI, educational tools, or cultural math.
+
+## The Cultural Root
+
+See the Python version (`adinkra-math` on PyPI) for the full cultural background. Adinkra symbols compress complex proverbs into geometric forms — the same principle as feature vectors in ML.
 
 ## Install
 
@@ -12,57 +16,80 @@ Bridges two meanings of "adinkra":
 npm install adinkra-math
 ```
 
-## API
+## Quick Start
 
-### Symbol
+```typescript
+import {
+  Symbol, SymbolType, getBuiltinSymbols,
+  Glyph, GlyphOperation, compose, preserveInvariant,
+  eulerCharacteristic, genus,
+  encodeConcept, nearestConcept, knn, kmeans,
+  createAdinkra, verifyChromotopology,
+} from "adinkra-math";
 
-```ts
-import { createSymbol, getBuiltinSymbols, SymbolType } from 'adinkra-math';
+// Built-in symbols
+const symbols = getBuiltinSymbols();
 
-const circle = createSymbol(SymbolType.CIRCLE, 0, 0, 40);
-const builtins = getBuiltinSymbols(); // 9 built-in: Gye Nyame, Sankofa, Fawohodie, ...
+// Compose glyphs
+const composed = compose(
+  new Glyph([symbols[0]]),
+  new Glyph([symbols[1]]),
+  GlyphOperation.SUPERIMPOSE
+);
+console.log(preserveInvariant(composed));
+
+// Encode concepts
+const c1 = encodeConcept("courage", 42);
+const c2 = encodeConcept("wisdom", 42);
+
+// KNN
+const concepts = ["love", "war", "peace"].map(w => encodeConcept(w, 0));
+const nearest = nearestConcept(encodeConcept("bravery", 0).vector, concepts);
+
+// K-means
+const clusters = kmeans(concepts, 2);
+
+// Supersymmetry
+const adinkra = createAdinkra(2);
+console.log(adinkra.bosons.length, adinkra.fermions.length);
+console.log(verifyChromotopology(adinkra));
+
+// Topology
+console.log(eulerCharacteristic(8, 12, 6));  // 2
+console.log(genus(2));  // 0 (sphere)
 ```
 
-### Glyph Composition
+## API Reference
 
-```ts
-import { compose, CompositionOp } from 'adinkra-math';
+### Symbols
+- `SymbolType` enum: `CIRCLE`, `SPIRAL`, `CROSS`, `LINE`, `ARC`, `DIAMOND`, `TRIANGLE`, `STAR`, `HEART`
+- `Symbol { name, primitives, meaning, weight, toVector() }`
+- `getBuiltinSymbols() → Symbol[]`
 
-const stacked = compose(glyph1, glyph2, CompositionOp.STACK);
-const nested = compose(glyph1, glyph2, CompositionOp.NEST);
-```
-
-### Encoding
-
-```ts
-import { encodeConcept, distance, nearestConcept, knn } from 'adinkra-math';
-
-const wisdom = encodeConcept('wisdom', 6);
-const strength = encodeConcept('strength', 6);
-const d = distance(wisdom, strength);
-```
-
-### Supersymmetry
-
-```ts
-import { createAdinkra, verifyChromotopology, bosonFermionSplit } from 'adinkra-math';
-
-const adinkra = createAdinkra(4); // rank-4: 8 nodes, 16 edges
-const valid = verifyChromotopology(adinkra); // true
-const { bosons, fermions } = bosonFermionSplit(adinkra);
-```
+### Glyphs
+- `GlyphOperation` enum: `SUPERIMPOSE`, `CONCATENATE`, `NEST`
+- `Glyph { symbols, primitives(), totalWeight() }`
+- `compose(g1, g2, operation) → Glyph`
+- `preserveInvariant(glyph) → boolean`
 
 ### Topology
+- `eulerCharacteristic(v, e, f) → number`
+- `genus(eulerChar) → number`
+- `connectedComponents(graph) → number`
 
-```ts
-import { connectedComponents, eulerCharacteristic, genus, makeTopoGraph, topoAddEdge } from 'adinkra-math';
+### Encoding & ML
+- `Concept { label, vector }`
+- `encodeConcept(text, seed?, dimensions?) → Concept`
+- `distance(v1, v2) → number`
+- `nearestConcept(vector, concepts) → Concept`
+- `knn(query, concepts, k?) → Concept[]`
+- `kmeans(concepts, k?, maxIter?) → Concept[][]`
 
-const g = makeTopoGraph(4);
-topoAddEdge(g, 0, 1);
-const cc = connectedComponents(g);
-const chi = eulerCharacteristic(4, 6, 4); // 2
-const gen = genus(chi); // 0
-```
+### Supersymmetry
+- `SUSYAdinkra { rank, bosons, fermions, edges }`
+- `createAdinkra(rank) → SUSYAdinkra`
+- `verifyChromotopology(adinkra) → boolean`
+- `bosonFermionSplit(adinkra) → [number[], number[]]`
 
 ## License
 
