@@ -1,12 +1,12 @@
 {
   "name": "adinkra-math",
   "version": "1.0.2",
-  "description": "West African symbolic encoding + SUSY adinkras for the browser \u2014 TypeScript/npm port of adinkra-math",
+  "description": "West African symbolic encoding + SUSY adinkras for the browser — TypeScript/npm port of adinkra-math",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "node --test dist/test/*.test.js",
+    "test": "tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -32,5 +32,10 @@
   "homepage": "https://github.com/SuperInstance/adinkra-math-npm#readme",
   "bugs": {
     "url": "https://github.com/SuperInstance/adinkra-math-npm/issues"
-  }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
 }
