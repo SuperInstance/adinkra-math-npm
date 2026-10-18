@@ -1,6 +1,6 @@
 {
   "name": "adinkra-math",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "West African symbolic encoding + SUSY adinkras for the browser \u2014 TypeScript/npm port of adinkra-math",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
